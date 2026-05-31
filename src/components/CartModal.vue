@@ -27,7 +27,6 @@
             </div>
             <div class="item-actions">
               <span class="item-total">${{ (item.price * item.quantity).toFixed(2) }}</span>
-              <!-- CORRECCIÓN: Ahora emite 'remove' para que el padre lo escuche correctamente -->
               <button class="btn-remove" @click="$emit('remove', item.id)" title="Quitar del carrito">
                 ✕
               </button>
@@ -445,5 +444,56 @@ const generateInvoice = () => {
 @keyframes boxIn {
   from { opacity: 0; transform: scale(0.92) translateY(14px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ==========================================================================
+   🚨 SECCIÓN NUEVA: MEDIA QUERIES PARA ADAPTAR EL CARRITO EN DISPOSITIVOS MÓVILES
+   ========================================================================== */
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding-top: 20px; /* Acerca el modal a la parte superior */
+  }
+
+  .modal-header {
+    padding: 16px 16px 12px; /* Reducción de relleno en cabecera */
+  }
+
+  .modal-content {
+    max-height: 90vh; /* Permite un área un poco mayor de despliegue */
+  }
+
+  .cart-body {
+    padding: 12px 16px 16px; /* Ajusta los márgenes laterales */
+  }
+
+  .cart-item {
+    gap: 8px; /* Compacta el listado de productos */
+    padding: 10px 0;
+  }
+
+  .item-name {
+    font-size: 13px; /* Tipografía sutilmente más compacta */
+    max-width: 140px; /* Control estricto de ancho para evitar desbordes */
+  }
+
+  .item-total {
+    font-size: 13px;
+    min-width: 45px;
+  }
+
+  .total-amount {
+    font-size: 1.35rem; /* Ajusta escala del valor total */
+  }
+
+  .btn-checkout {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .btn-close-modal {
+    width: calc(100% - 32px);
+    margin: 0 16px 16px;
+    padding: 10px;
+  }
 }
 </style>

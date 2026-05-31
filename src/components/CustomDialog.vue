@@ -2,7 +2,6 @@
   <div class="dialog-overlay" @click.self="cancel">
     <div class="dialog-box" :class="`dialog-box--${type}`">
 
-      <!-- Ícono según tipo -->
       <div class="dialog-icon-wrap">
         <span class="dialog-icon">
           {{ type === 'alert' ? '⚠️' : type === 'prompt' ? '📦' : '🗑️' }}
@@ -12,7 +11,6 @@
       <h3 class="dialog-title">{{ title }}</h3>
       <p class="dialog-message">{{ message }}</p>
 
-      <!-- Input solo aparece si es tipo 'prompt' (reabastecer) -->
       <div v-if="type === 'prompt'" class="dialog-input-group">
         <input
           type="number"
@@ -26,7 +24,6 @@
       </div>
 
       <div class="dialog-actions">
-        <!-- Botón de cancelar (no aparece en alertas simples) -->
         <button
           v-if="type !== 'alert'"
           class="btn-cancel"
@@ -249,5 +246,41 @@ const cancel = () => {
 @keyframes boxIn {
   from { opacity: 0; transform: scale(0.88) translateY(12px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ==========================================================================
+   🚨 SECCIÓN NUEVA: MEDIA QUERY PARA EL DIÁLOGO EN CELULARES MUY PEQUEÑOS
+   ========================================================================== */
+@media (max-width: 380px) {
+  .dialog-box {
+    padding: 24px 20px 20px; /* Reducimos el colchón interno */
+  }
+
+  .dialog-title {
+    font-size: 1.15rem; /* Ajuste sutil del tamaño de letra */
+  }
+
+  .dialog-message {
+    font-size: 0.88rem;
+    margin-bottom: 18px;
+  }
+
+  .dialog-input {
+    width: 90px;
+    font-size: 1.1rem;
+    padding: 8px 10px; /* Hace el input de unidades más cómodo para el teclado táctil */
+  }
+
+  .dialog-actions {
+    flex-direction: column-reverse; /* Apila botones en vertical (Cancelar abajo, Confirmar arriba) */
+    gap: 8px;
+    width: 100%;
+  }
+
+  .btn-cancel, .btn-confirm {
+    width: 100%; /* Los botones ocupan todo el ancho del modal */
+    box-sizing: border-box;
+    padding: 11px 16px;
+  }
 }
 </style>

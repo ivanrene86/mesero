@@ -121,7 +121,7 @@ const errors  = reactive({ name: '', description: '', price: '', stock: '' })
 
 const validate = () => {
   let isValid = true
-  if (!product.name.trim())                       { errors.name        = 'El nombre es obligatorio'; isValid = false } else { errors.name        = '' }
+  if (!product.name.trim())                 { errors.name        = 'El nombre es obligatorio'; isValid = false } else { errors.name        = '' }
   if (!product.description.trim())                { errors.description = 'La descripción es obligatoria'; isValid = false } else { errors.description = '' }
   if (!product.price || product.price <= 0)      { errors.price       = 'Debe ser mayor a 0'; isValid = false }       else { errors.price       = '' }
   if (product.stock === null || product.stock < 0) { errors.stock     = 'Stock inválido'; isValid = false }           else { errors.stock       = '' }
@@ -411,5 +411,60 @@ input.has-prefix { padding-left: 26px; }
 @keyframes boxIn {
   from { opacity: 0; transform: scale(0.9) translateY(16px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ==========================================================================
+   🚨 SECCIÓN NUEVA: MEDIA QUERIES PARA RESPONSIVIDAD EN MÓVILES
+   ========================================================================== */
+@media (max-width: 480px) {
+  .modal-content {
+    width: 95%; /* Aprovecha mejor los bordes en pantallas angostas */
+    max-height: 95vh;
+    overflow-y: auto; /* Permite scroll interno si el teclado virtual se despliega */
+  }
+
+  .modal-header {
+    padding: 18px 16px 14px;
+  }
+
+  .modal-form {
+    padding: 14px 16px 16px;
+    gap: 12px; /* Espaciado más compacto entre grupos del formulario */
+  }
+
+  .form-row {
+    flex-direction: column; /* Apila 'Precio' y 'Stock' verticalmente */
+    gap: 12px;
+  }
+
+  .category-options {
+    grid-template-columns: repeat(2, 1fr); /* Pasa de 4 columnas a un grid de 2x2 */
+    gap: 8px;
+  }
+
+  .category-option {
+    padding: 8px 4px;
+  }
+
+  .cat-emoji {
+    font-size: 18px;
+  }
+
+  .cat-label {
+    font-size: 10px;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse; /* Botón guardar arriba de cancelar */
+    gap: 8px;
+    width: 100%;
+  }
+
+  .btn-cancel, .btn-save {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 11px;
+  }
 }
 </style>

@@ -304,4 +304,35 @@ const categoryEmoji = computed(() => categoryMap[props.item.category]?.emoji ?? 
   color: #b0aca6;
   cursor: not-allowed;
 }
+
+/* ==========================================================================
+   🚨 SECCIÓN NUEVA: MEDIA QUERIES PARA ADAPTAR LAS TARJETAS EN MÓVILES
+   ========================================================================== */
+@media (max-width: 480px) {
+  .card-body {
+    padding: 12px; /* Espaciado interno un poco más estrecho */
+  }
+
+  .title {
+    font-size: 0.95rem; /* El título disminuye levemente para no ocupar tantas líneas */
+  }
+
+  .stock-container {
+    padding: 6px 8px; /* Hace el módulo de stock un poco más delgado */
+  }
+
+  .restock-btn {
+    padding: 4px 6px; /* Ajusta el tamaño del botón secundario */
+    font-size: 10px;
+  }
+
+  .price {
+    font-size: 1.05rem; /* Ajusta la escala del precio */
+  }
+
+  .add-btn {
+    padding: 6px 12px; /* Compacta el botón de añadir para pantallas angostas */
+    font-size: 12px;
+  }
+}
 </style>

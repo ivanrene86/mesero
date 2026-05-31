@@ -26,9 +26,8 @@
               <span class="item-meta">{{ item.quantity }} × ${{ item.price.toFixed(2) }}</span>
             </div>
             <div class="item-actions">
-              <span class="item-meta">{{ item.quantity }} × ${{ item.price.toLocaleString('es-CO') }}</span>
+              <span class="item-total">${{ (item.price * item.quantity).toFixed(2) }}</span>
               <button class="btn-remove" @click="$emit('remove', item.id)" title="Quitar del carrito">
-
                 ✕
               </button>
             </div>
@@ -37,7 +36,7 @@
 
         <div class="cart-total-row">
           <span class="total-label">Total a pagar</span>
-          <span class="item-total">${{ (item.price * item.quantity).toLocaleString('es-CO') }}</span>
+          <span class="total-amount">${{ total.toFixed(2) }}</span>
         </div>
 
         <button class="btn-checkout" @click="generateInvoice">

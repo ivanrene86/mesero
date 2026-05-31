@@ -23,10 +23,10 @@
             <div class="item-emoji">{{ categoryEmoji(item.category) }}</div>
             <div class="item-info">
               <strong class="item-name">{{ item.name }}</strong>
-              <span class="item-meta">{{ item.quantity }} × ${{ item.price.toFixed(2) }}</span>
+              <span class="item-meta">{{ item.quantity }} × ${{ item.price.toLocaleString('es-CO') }}</span>
             </div>
             <div class="item-actions">
-              <span class="item-total">${{ (item.price * item.quantity).toFixed(2) }}</span>
+              <span class="item-total">${{ (item.price * item.quantity).toLocaleString('es-CO') }}</span>
               <button class="btn-remove" @click="$emit('remove', item.id)" title="Quitar del carrito">
                 ✕
               </button>
@@ -36,7 +36,7 @@
 
         <div class="cart-total-row">
           <span class="total-label">Total a pagar</span>
-          <span class="total-amount">${{ total.toFixed(2) }}</span>
+          <span class="total-amount">${{ total.toLocaleString('es-CO') }}</span>
         </div>
 
         <button class="btn-checkout" @click="generateInvoice">
@@ -56,7 +56,6 @@ import { computed } from 'vue'
 import html2pdf from 'html2pdf.js'
 
 const props = defineProps({ cart: Array })
-// CORRECCIÓN: Declaramos 'remove' en lugar de 'remove-from-cart'
 const emit  = defineEmits(['close', 'remove', 'checkout'])
 
 const total = computed(() => props.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0))
@@ -102,15 +101,15 @@ const generateInvoice = () => {
             <tr>
               <td style="border: 1px solid #dee2e6; padding: 12px;">${item.name}</td>
               <td style="border: 1px solid #dee2e6; padding: 12px; text-align: center;">${item.quantity}</td>
-              <td style="border: 1px solid #dee2e6; padding: 12px; text-align: right;">$${item.price.toFixed(2)}</td>
-              <td style="border: 1px solid #dee2e6; padding: 12px; text-align: right; font-weight: bold;">$${(item.price * item.quantity).toFixed(2)}</td>
+              <td style="border: 1px solid #dee2e6; padding: 12px; text-align: right;">$${item.price.toLocaleString('es-CO')}</td>
+              <td style="border: 1px solid #dee2e6; padding: 12px; text-align: right; font-weight: bold;">$${(item.price * item.quantity).toLocaleString('es-CO')}</td>
             </tr>
           `).join('')}
         </tbody>
       </table>
 
       <div style="text-align: right; border-top: 3px solid #333; padding-top: 20px; margin-top: 20px;">
-        <h2 style="margin: 0 0 10px 0; color: #10b981; font-size: 28px;">TOTAL: $${total.value.toFixed(2)}</h2>
+        <h2 style="margin: 0 0 10px 0; color: #10b981; font-size: 28px;">TOTAL: $${total.value.toLocaleString('es-CO')}</h2>
         <p style="margin: 0; color: #666; font-size: 18px;">¡Gracias por su visita!</p>
       </div>
 
@@ -167,7 +166,6 @@ const generateInvoice = () => {
   flex-direction: column;
 }
 
-/* Scrollbar sutil */
 .modal-content::-webkit-scrollbar { width: 4px; }
 .modal-content::-webkit-scrollbar-track { background: transparent; }
 .modal-content::-webkit-scrollbar-thumb { background: #e8e4de; border-radius: 4px; }
@@ -446,54 +444,16 @@ const generateInvoice = () => {
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/* ==========================================================================
-   🚨 SECCIÓN NUEVA: MEDIA QUERIES PARA ADAPTAR EL CARRITO EN DISPOSITIVOS MÓVILES
-   ========================================================================== */
 @media (max-width: 480px) {
-  .modal-overlay {
-    padding-top: 20px; /* Acerca el modal a la parte superior */
-  }
-
-  .modal-header {
-    padding: 16px 16px 12px; /* Reducción de relleno en cabecera */
-  }
-
-  .modal-content {
-    max-height: 90vh; /* Permite un área un poco mayor de despliegue */
-  }
-
-  .cart-body {
-    padding: 12px 16px 16px; /* Ajusta los márgenes laterales */
-  }
-
-  .cart-item {
-    gap: 8px; /* Compacta el listado de productos */
-    padding: 10px 0;
-  }
-
-  .item-name {
-    font-size: 13px; /* Tipografía sutilmente más compacta */
-    max-width: 140px; /* Control estricto de ancho para evitar desbordes */
-  }
-
-  .item-total {
-    font-size: 13px;
-    min-width: 45px;
-  }
-
-  .total-amount {
-    font-size: 1.35rem; /* Ajusta escala del valor total */
-  }
-
-  .btn-checkout {
-    padding: 12px;
-    font-size: 14px;
-  }
-
-  .btn-close-modal {
-    width: calc(100% - 32px);
-    margin: 0 16px 16px;
-    padding: 10px;
-  }
+  .modal-overlay { padding-top: 20px; }
+  .modal-header { padding: 16px 16px 12px; }
+  .modal-content { max-height: 90vh; }
+  .cart-body { padding: 12px 16px 16px; }
+  .cart-item { gap: 8px; padding: 10px 0; }
+  .item-name { font-size: 13px; max-width: 140px; }
+  .item-total { font-size: 13px; min-width: 45px; }
+  .total-amount { font-size: 1.35rem; }
+  .btn-checkout { padding: 12px; font-size: 14px; }
+  .btn-close-modal { width: calc(100% - 32px); margin: 0 16px 16px; padding: 10px; }
 }
 </style>

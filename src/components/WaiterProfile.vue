@@ -324,6 +324,10 @@ const formatearCOP = (valor) => {
   box-shadow: 0 2px 10px rgba(26,23,20,0.02);
   margin-bottom: 24px;
   gap: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #ffffff;
 }
 
 .header-brand {
@@ -498,6 +502,10 @@ const formatearCOP = (valor) => {
     padding: 16px;
     gap: 16px;
     text-align: center;
+    position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #ffffff;
   }
 
   .header-brand {

@@ -488,16 +488,15 @@ const formatearCOP = (valor) => {
   }
 }
 
-/* 2. Celulares y Dispositivos Móviles (max-width: 768px) */
+/* 2. Celulares Grandes y Tablets Pequeñas (max-width: 768px) */
 @media (max-width: 768px) {
   .app-container {
-    padding: 12px; /* Reducimos márgenes de la app para ganar pantalla */
+    padding: 12px;
   }
 
-  /* Cambiamos el Header de fila a columna para acomodar los elementos */
   .main-header {
     flex-direction: column;
-    align-items: stretch; /* Ocupa todo el ancho */
+    align-items: stretch;
     padding: 16px;
     gap: 16px;
     text-align: center;
@@ -513,13 +512,11 @@ const formatearCOP = (valor) => {
     align-items: center;
   }
 
-  /* El buscador toma todo el ancho en móviles */
   .search-container-fluid {
     max-width: 100%;
     margin: 0;
   }
 
-  /* Las acciones se reparten equitativamente abajo */
   .header-actions {
     width: 100%;
     justify-content: space-between;
@@ -533,44 +530,46 @@ const formatearCOP = (valor) => {
     text-align: center;
   }
 
-  /* El botón de carrito pasa de ancho fijo a flexible en pantallas pequeñas */
   .btn-cart-new {
     flex: 1.3;
-    width: auto; /* Rompe el ancho fijo solo en celulares para que no se salga */
+    width: auto;
     padding: 12px 10px;
     font-size: 0.8rem;
   }
   
-  /* 🛠️ MODIFICADO: Cambiado a 1 columna fija si la pantalla ya es tamaño móvil estándar */
+  /* 🛠️ OPTIMIZADO: Dos columnas cómodas para pantallas desde ~450px hasta 768px */
   .products-grid {
-    grid-template-columns: 1fr; 
-    gap: 16px;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px; /* Reducimos un poco el espacio para que quepan mejor de a dos */
   }
 }
 
-/* 3. Celulares Pequeños (max-width: 480px) */
-@media (max-width: 480px) {
+/* 3. Celulares Estándar y Pequeños (max-width: 450px) */
+@media (max-width: 450px) {
+  /* 🛠️ OPTIMIZADO: Si el teléfono es más angosto que 450px, cae a una sola columna */
+  .products-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+
+  .products-grid > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+}
+
+/* 4. Celulares Muy Pequeños / Pantallas "Enanas" (max-width: 360px) */
+@media (max-width: 360px) {
   .header-actions {
-    flex-direction: column; /* Apila el botón nuevo y el carrito si la pantalla es enana */
+    flex-direction: column; /* Apila botones solo si de verdad el espacio es crítico */
+    gap: 8px;
   }
   
   .btn-new-product, .btn-cart-new {
     width: 100%;
     flex: none;
-  }
-
-  /* 🛠️ AÑADIDO: Forzamos una sola columna limpia y evitamos desbordes */
-  .products-grid {
-    grid-template-columns: 1fr !important;
-    width: 100%;
-    padding: 0;
-  }
-
-  /* Asegura que las tarjetas hijas se adapten al 100% real del ancho del teléfono */
-  .products-grid > * {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box;
   }
 }
 </style>

@@ -463,4 +463,92 @@ const formatearCOP = (valor) => {
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 24px;
 }
+
+/* ==========================================================================
+   🚨 SECCIÓN NUEVA: MEDIA QUERIES PARA RESPONSIVIDAD (SIN ALTERAR LO ANTERIOR)
+   ========================================================================== */
+
+/* 1. Tablets y Pantallas Medianas (max-width: 992px) */
+@media (max-width: 992px) {
+  .main-header {
+    padding: 18px 20px;
+    gap: 15px;
+  }
+  
+  .restaurant-name {
+    font-size: 1.6rem;
+  }
+  
+  .search-container-fluid {
+    max-width: 300px;
+    margin: 0 5px;
+  }
+}
+
+/* 2. Celulares y Dispositivos Móviles (max-width: 768px) */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 12px; /* Reducimos márgenes de la app para ganar pantalla */
+  }
+
+  /* Cambiamos el Header de fila a columna para acomodar los elementos */
+  .main-header {
+    flex-direction: column;
+    align-items: stretch; /* Ocupa todo el ancho */
+    padding: 16px;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .header-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* El buscador toma todo el ancho en móviles */
+  .search-container-fluid {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  /* Las acciones se reparten equitativamente abajo */
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .btn-new-product {
+    flex: 1;
+    padding: 12px 10px;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  /* El botón de carrito pasa de ancho fijo a flexible en pantallas pequeñas */
+  .btn-cart-new {
+    flex: 1.3;
+    width: auto; /* Rompe el ancho fijo solo en celulares para que no se salga */
+    padding: 12px 10px;
+    font-size: 0.8rem;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Tarjetas un poquito más compactas */
+    gap: 16px;
+  }
+}
+
+/* 3. Celulares Pequeños (max-width: 480px) */
+@media (max-width: 480px) {
+  .header-actions {
+    flex-direction: column; /* Apila el botón nuevo y el carrito si la pantalla es enana */
+  }
+  
+  .btn-new-product, .btn-cart-new {
+    width: 100%;
+    flex: none;
+  }
+}
 </style>

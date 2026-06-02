@@ -304,12 +304,35 @@ const formatearCOP = (valor) => {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap');
 
+
+/* ==========================================================================
+   🛡️ SECCIÓN NUEVA: ESTILOS GLOBALES DE CONTROL (Previene scroll fantasma)
+   ========================================================================== */
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Corta radicalmente cualquier scroll horizontal */
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box; /* Asegura que paddings y borders no sumen ancho extra */
+}
+
+/* ==========================================================================
+   ESTILOS BASE DE LA PÁGINA
+   ========================================================================== */
+
 .app-container {
   max-width: 1250px;
   margin: 0 auto;
   padding: 24px;
   background-color: #faf8f5;
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden; /* Doble escudo de protección para el contenedor principal */
 }
 
 /* Rediseño del Header: Fuerza que todo viva en una sola línea horizontal */
@@ -327,7 +350,6 @@ const formatearCOP = (valor) => {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: #ffffff;
 }
 
 .header-brand {
@@ -366,7 +388,6 @@ const formatearCOP = (valor) => {
 }
 .search-input-new {
   width: 100%;
-  box-sizing: border-box; /* Previene desbordamiento */
   padding: 12px 16px 12px 46px;
   border-radius: 100px;
   border: 1px solid #e8e4de;
@@ -409,12 +430,12 @@ const formatearCOP = (valor) => {
   border-color: #6b6560;
 }
 
-/* Botón del Carrito: Con un ancho estricto e inmutable */
+/* Botón del Carrito */
 .btn-cart-new {
   background: #1a1714;
   color: #ffffff;
   border: none;
-  padding: 12px 0; /* Controlamos el padding horizontal con un ancho fijo */
+  padding: 12px 0;
   width: 240px;    /* 🌟 ANCHO FIJO: No cambia de tamaño al meter productos */
   text-align: center;
   border-radius: 100px;
@@ -467,8 +488,9 @@ const formatearCOP = (valor) => {
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 24px;
 }
+
 /* ==========================================================================
-   🚨 SECCIÓN NUEVA: MEDIA QUERIES PARA RESPONSIVIDAD (SIN ALTERAR LO ANTERIOR)
+   🚨 SECCIÓN DE MEDIA QUERIES TOTALMENTE REAJUSTADA
    ========================================================================== */
 
 /* 1. Tablets y Pantallas Medianas (max-width: 992px) */
@@ -504,6 +526,7 @@ const formatearCOP = (valor) => {
     top: 0;
     z-index: 100;
     background: #ffffff;
+    width: 100% !important; /* Fuerza el control exacto de ancho */
   }
 
   .header-brand {
@@ -537,17 +560,16 @@ const formatearCOP = (valor) => {
     font-size: 0.8rem;
   }
   
-  /* 🛠️ OPTIMIZADO: Dos columnas cómodas para pantallas desde ~450px hasta 768px */
+  /* Muestra dos columnas cómodas y balanceadas en tu Redmi */
   .products-grid {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px; /* Reducimos un poco el espacio para que quepan mejor de a dos */
+    gap: 12px;
   }
 }
 
 /* 3. Celulares Estándar y Pequeños (max-width: 450px) */
 @media (max-width: 450px) {
-  /* 🛠️ OPTIMIZADO: Si el teléfono es más angosto que 450px, cae a una sola columna */
   .products-grid {
     grid-template-columns: 1fr !important;
     gap: 16px;
@@ -556,14 +578,13 @@ const formatearCOP = (valor) => {
   .products-grid > * {
     width: 100% !important;
     max-width: 100% !important;
-    box-sizing: border-box;
   }
 }
 
 /* 4. Celulares Muy Pequeños / Pantallas "Enanas" (max-width: 360px) */
 @media (max-width: 360px) {
   .header-actions {
-    flex-direction: column; /* Apila botones solo si de verdad el espacio es crítico */
+    flex-direction: column;
     gap: 8px;
   }
   

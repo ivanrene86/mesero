@@ -478,9 +478,9 @@ html, body {
   border-color: #b0aca6;
 }
 .filter-btn--active {
-  background: #1a1714;
-  color: #ffffff;
-  border-color: #1a1714;
+background: #1a1714 !important;
+  color: #ffffff !important;       /* 🛠️ Fuerza el texto a blanco */
+  border-color: #1a1714 !important;
 }
 
 .products-grid {

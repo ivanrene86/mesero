@@ -467,7 +467,6 @@ const formatearCOP = (valor) => {
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 24px;
 }
-
 /* ==========================================================================
    🚨 SECCIÓN NUEVA: MEDIA QUERIES PARA RESPONSIVIDAD (SIN ALTERAR LO ANTERIOR)
    ========================================================================== */
@@ -503,9 +502,9 @@ const formatearCOP = (valor) => {
     gap: 16px;
     text-align: center;
     position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #ffffff;
+    top: 0;
+    z-index: 100;
+    background: #ffffff;
   }
 
   .header-brand {
@@ -542,8 +541,9 @@ const formatearCOP = (valor) => {
     font-size: 0.8rem;
   }
   
+  /* 🛠️ MODIFICADO: Cambiado a 1 columna fija si la pantalla ya es tamaño móvil estándar */
   .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Tarjetas un poquito más compactas */
+    grid-template-columns: 1fr; 
     gap: 16px;
   }
 }
@@ -557,6 +557,20 @@ const formatearCOP = (valor) => {
   .btn-new-product, .btn-cart-new {
     width: 100%;
     flex: none;
+  }
+
+  /* 🛠️ AÑADIDO: Forzamos una sola columna limpia y evitamos desbordes */
+  .products-grid {
+    grid-template-columns: 1fr !important;
+    width: 100%;
+    padding: 0;
+  }
+
+  /* Asegura que las tarjetas hijas se adapten al 100% real del ancho del teléfono */
+  .products-grid > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
   }
 }
 </style>

@@ -221,7 +221,6 @@ const removeFromCart = (productId) => {
 const addProduct = (newProd) => {
   const id = menuItems.value.length ? Math.max(...menuItems.value.map(p => p.id)) + 1 : 1
   
-  // Respaldo dinámico por si el usuario introduce una URL con bloqueos CORS/Hotlinking externos
   const secureImage = newProd.image && newProd.image.trim() !== '' 
     ? newProd.image 
     : 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=80'
@@ -272,13 +271,17 @@ const deleteProduct = (id) => {
   })
 }
 
-const restockProduct = (id) => {
+// ─── 🛠️ FUNCIÓN MODIFICADA: AHORA RECIBE LA CANTIDAD DINÁMICA DEL HIJO ───
+const restockProduct = (id, cantidad) => {
   const product = menuItems.value.find(p => p.id === id)
   if (product) {
-    product.stock += 10
+    // Si por algún motivo no se pasa cantidad, toma 10 por defecto para evitar errores
+    const unidadesAAgregar = cantidad !== undefined ? cantidad : 10
+    product.stock += unidadesAAgregar
+    
     toast.fire({
       icon: 'success',
-      title: `+10 Unidades añadidas a ${product.name}`
+      title: `+${unidadesAAgregar} Unidades añadidas a ${product.name}`
     })
   }
 }

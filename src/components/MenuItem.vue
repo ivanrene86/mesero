@@ -30,7 +30,7 @@
             Stock: <strong :class="item.stock > 0 ? 'in-stock' : 'no-stock'">{{ item.stock }}</strong>
           </span>
         </div>
-        <button class="restock-btn" @click="$emit('restock-item', item.id)" title="Reabastecer inventario">
+        <button class="restock-btn" @click="solicitarReabastecimiento" title="Reabastecer inventario">
           📦 +Stock
         </button>
       </div>
@@ -51,6 +51,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import Swal from 'sweetalert2' // 🛠️ AÑADIDO: Importamos SweetAlert2
 
 const props = defineProps({
   item: {
@@ -59,7 +60,8 @@ const props = defineProps({
   }
 })
 
-defineEmits(['add-to-cart', 'delete-item', 'restock-item'])
+// 🛠️ MODIFICADO: Agregamos la capacidad de enviar la cantidad exacta al padre
+const emit = defineEmits(['add-to-cart', 'delete-item', 'restock-item'])
 
 const categoryMap = {
   'Plato Fuerte': { key: 'main',    emoji: '🍽️' },
@@ -70,6 +72,59 @@ const categoryMap = {
 
 const categoryKey   = computed(() => categoryMap[props.item.category]?.key   ?? 'main')
 const categoryEmoji = computed(() => categoryMap[props.item.category]?.emoji ?? '🍽️')
+
+// 🛠️ NUEVA FUNCIÓN: Maneja la alerta de SweetAlert2 con validaciones estrictas
+const solicitarReabastecimiento = async () => {
+  // 1. Abre el prompt interactivo solicitando la cantidad
+  const { value: cantidadIngresada } = await Swal.fire({
+    title: 'Reabastecer Inventario',
+    text: `¿Cuántas unidades de "${props.item.name}" deseas añadir al stock?`,
+    input: 'number',
+    inputLabel: 'Cantidad de unidades',
+    inputValue: 10, // Valor inicial sugerido en el cuadro
+    showCancelButton: true,
+    confirmButtonText: 'Añadir',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#1a1714', // Color oscuro a juego con tu paleta
+    cancelButtonColor: '#b0aca6',
+    inputValidator: (value) => {
+      // Validación en tiempo real: que no esté vacío, sea número entero y mayor a 0
+      if (!value || isNaN(value) || parseInt(value, 10) <= 0) {
+        return 'Por favor, ingresa una cantidad válida mayor a 0';
+      }
+    }
+  });
+
+  // 2. Si el usuario confirmó y la cantidad es válida, pedimos la segunda confirmación
+  if (cantidadIngresada) {
+    const unidades = parseInt(cantidadIngresada, 10);
+
+    const confirmacion = await Swal.fire({
+      title: '¿Confirmar operación?',
+      text: `Vas a agregar ${unidades} unidades al stock de "${props.item.name}".`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, agregar',
+      cancelButtonText: 'No, cancelar',
+      confirmButtonColor: '#2d6a4f', // Verde de tu paleta de stock
+      cancelButtonColor: '#c8572a'  // Rojo de tu paleta
+    });
+
+    // 3. Si confirma definitivamente, enviamos el evento al padre adjuntando el ID y las Unidades
+    if (confirmacion.isConfirmed) {
+      emit('restock-item', props.item.id, unidades);
+      
+      // Alerta de éxito final
+      Swal.fire({
+        title: '¡Actualizado!',
+        text: 'El inventario ha sido modificado con éxito.',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false
+      });
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -137,7 +192,6 @@ const categoryEmoji = computed(() => categoryMap[props.item.category]?.emoji ?? 
   overflow: hidden;
 }
 
-/* Nuevos estilos para la etiqueta img incorporada */
 .product-image {
   width: 100%;
   height: 100%;
@@ -148,7 +202,6 @@ const categoryEmoji = computed(() => categoryMap[props.item.category]?.emoji ?? 
   z-index: 1;
 }
 
-/* Colores por categoría — cálidos y coherentes con la paleta crema */
 .card-img--main    { background: #f5ede8; }
 .card-img--starter { background: #e8f4ef; }
 .card-img--drink   { background: #e8eef8; }
@@ -159,7 +212,7 @@ const categoryEmoji = computed(() => categoryMap[props.item.category]?.emoji ?? 
   line-height: 1;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
   position: relative;
-  z-index: 0; /* Queda por detrás de la imagen de comida */
+  z-index: 0;
 }
 
 /* ─── Badge de categoría ─────────────────────────────────── */
@@ -176,7 +229,7 @@ const categoryEmoji = computed(() => categoryMap[props.item.category]?.emoji ?? 
   color: #6b6560;
   letter-spacing: 0.03em;
   border: 1px solid rgba(232,228,222,0.9);
-  z-index: 2; /* Siempre por encima de la imagen */
+  z-index: 2;
 }
 
 /* ─── Cuerpo ─────────────────────────────────────────────── */
@@ -310,28 +363,28 @@ const categoryEmoji = computed(() => categoryMap[props.item.category]?.emoji ?? 
    ========================================================================== */
 @media (max-width: 480px) {
   .card-body {
-    padding: 12px; /* Espaciado interno un poco más estrecho */
+    padding: 12px;
   }
 
   .title {
-    font-size: 0.95rem; /* El título disminuye levemente para no ocupar tantas líneas */
+    font-size: 0.95rem;
   }
 
   .stock-container {
-    padding: 6px 8px; /* Hace el módulo de stock un poco más delgado */
+    padding: 6px 8px;
   }
 
   .restock-btn {
-    padding: 4px 6px; /* Ajusta el tamaño del botón secundario */
+    padding: 4px 6px;
     font-size: 10px;
   }
 
   .price {
-    font-size: 1.05rem; /* Ajusta la escala del precio */
+    font-size: 1.05rem;
   }
 
   .add-btn {
-    padding: 6px 12px; /* Compacta el botón de añadir para pantallas angostas */
+    padding: 6px 12px;
     font-size: 12px;
   }
 }
